@@ -1,12 +1,25 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:webtoon/models/webtoon_model.dart';
-import 'package:webtoon/services/api_services.dart';
+import 'package:webtoon/services/api_service.dart';
 import 'package:webtoon/widgets/webtoos_widget.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
-  final Future<List<WebtoonModel>> webtoons = ApiService.getTodaysToons();
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late Future<List<WebtoonModel>> webtoons;
+
+  @override
+  void initState() {
+    super.initState();
+    Dio dio = Dio();
+    webtoons = ApiService(dio).getTodaysToons();
+  }
 
   @override
   Widget build(BuildContext context) {

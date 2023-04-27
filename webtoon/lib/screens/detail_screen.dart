@@ -1,8 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webtoon/models/webtoon_detail_model.dart';
 import 'package:webtoon/models/webtoon_episode_model.dart';
-import 'package:webtoon/services/api_services.dart';
+import 'package:webtoon/services/api_service.dart';
 import '../widgets/Episode.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -38,8 +39,10 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
     super.initState();
-    webtoon = ApiService.getToonById(widget.id);
-    episodes = ApiService.getLatestEpisodesById(widget.id);
+
+    Dio dio = Dio();
+    webtoon = ApiService(dio).getToonById(widget.id);
+    episodes = ApiService(dio).getLatestEpisodesById(widget.id);
     initPrefs();
   }
 
